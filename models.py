@@ -25,10 +25,10 @@ models
 from peewee import *
 
 
-DATABASE = MySQLDatabase('fintech', **{
-    'host': '115.29.191.218',
-    'user': 'root',
-    'password': '123456',
+DATABASE = MySQLDatabase('db_19', **{
+    'host': '182.254.156.233',
+    'user': 'user_19',
+    'password': 'FdJb0cgf',
     'port': 3306,
 })
 DATABASE.connect()
