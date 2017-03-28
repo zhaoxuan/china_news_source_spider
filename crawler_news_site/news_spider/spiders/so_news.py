@@ -26,7 +26,7 @@ from scrapy import signals
 
 from news_spider.items import SpiderItem
 
-origin_url = 'http://news.so.com/ns?q=国安'
+origin_url = 'http://news.so.com/ns?q=%s'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 dicts_path = dir_path + '/../../../dicts.txt'
 
@@ -36,10 +36,10 @@ class SoNewsSpider(scrapy.Spider):
     allowed_domains = ['so.com']
     start_urls = [origin_url]
 
-    # news_file = open(dicts_path, 'r')
+    news_file = open(dicts_path, 'r')
 
-    # for word in news_file.readlines():
-    #     start_urls.append(origin_url % word.strip())
+    for word in news_file.readlines():
+        start_urls.append(origin_url % word.strip())
 
     # 减慢爬取速度
     download_delay = 1
