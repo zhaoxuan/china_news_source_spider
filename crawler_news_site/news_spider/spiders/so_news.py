@@ -26,20 +26,20 @@ from scrapy import signals
 
 from news_spider.items import SpiderItem
 
-origin_url = 'http://news.sogou.com/news?query=%s&num=100'
+origin_url = 'http://news.so.com/ns?q=国安'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 dicts_path = dir_path + '/../../../dicts.txt'
 
 
-class SogouNewsSpider(scrapy.Spider):
-    name = 'sogou_news_spider'
-    allowed_domains = ['sogou.com']
-    start_urls = []
+class SoNewsSpider(scrapy.Spider):
+    name = 'so_news_spider'
+    allowed_domains = ['so.com']
+    start_urls = [origin_url]
 
-    news_file = open(dicts_path, 'r')
+    # news_file = open(dicts_path, 'r')
 
-    for word in news_file.readlines():
-        start_urls.append(origin_url % word.strip())
+    # for word in news_file.readlines():
+    #     start_urls.append(origin_url % word.strip())
 
     # 减慢爬取速度
     download_delay = 1
@@ -53,20 +53,20 @@ class SogouNewsSpider(scrapy.Spider):
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
 
-        spider = super(SogouNewsSpider, cls).from_crawler(crawler, *args, **kwargs)
+        spider = super(SoNewsSpider, cls).from_crawler(crawler, *args, **kwargs)
         crawler.signals.connect(spider.closed_handler, signals.spider_closed)
 
         return spider
 
     def closed_handler(self, spider):
-        spider.logger.warning('SogouNewsSpider closed, success: %d, failure: %d' % (self.success, self.failure))
+        spider.logger.warning('SoNewsSpider closed, success: %d, failure: %d' % (self.success, self.failure))
 
     def parse(self, response):
-        lists = response.xpath('//div[@class="results"]/div')
+        lists = response.xpath('//ul[@class="result"]/li')
 
         for item in lists:
-            url = item.xpath('.//h3[@class="vrTitle"]/a/@href').extract()[0]
-            name = item.xpath('.//p[@class="news-from"]/text()').extract()[0]
+            url = item.xpath('.//h3/a/@href').extract()[0]
+            name = item.xpath('.//p[@class="newsinfo"]/span/text()').extract()[0]
             domain = urlparse(url).netloc
             spider_item = SpiderItem()
             spider_item['domain'] = domain
