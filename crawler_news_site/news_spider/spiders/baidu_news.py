@@ -38,8 +38,8 @@ class BaiduNewsSpider(scrapy.Spider):
 
     news_file = open(dicts_path, 'r')
 
-    for name in news_file.readlines():
-        start_urls.append(origin_url % name.strip())
+    for word in news_file.readlines():
+        start_urls.append(origin_url % word.strip())
 
     # 减慢爬取速度
     download_delay = 1
