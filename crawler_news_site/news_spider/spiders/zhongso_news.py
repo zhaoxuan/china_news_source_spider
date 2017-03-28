@@ -33,7 +33,7 @@ dicts_path = dir_path + '/../../../dicts.txt'
 
 class ZhongsoNewsSpider(scrapy.Spider):
     name = 'zhongso_news_spider'
-    allowed_domains = ['sogou.com']
+    allowed_domains = ['zhongsou.com']
     start_urls = []
 
     news_file = open(dicts_path, 'r')
