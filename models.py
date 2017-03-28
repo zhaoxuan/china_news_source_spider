@@ -39,11 +39,6 @@ class NewsSite(Model):
         database = DATABASE
 
     id = PrimaryKeyField()
-    dt = IntegerField(index=True)
-    is_active = BooleanField(default=True)
-    is_delete = BooleanField(default=False)
-    create = IntegerField()
-    update = IntegerField()
     domain = CharField(max_length=1024)
     name = CharField(max_length=128)
 
